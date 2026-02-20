@@ -23,7 +23,6 @@ function App() {
           <h2 className="text-slate-400 text-xs uppercase tracking-widest">Shelter Monitoring</h2>
           <OccupancyCard name="Shelter Alpha" count={87} capacity={100} risk="HIGH" />
           <ResourcePanel count={87} />
-          <ShelterMap />
           <AlertFeed />
           <SituationReport />
         </div>
@@ -33,6 +32,7 @@ function App() {
           <h2 className="text-slate-400 text-xs uppercase tracking-widest">Damage Assessment</h2>
           <DamageUpload />
           <DispatchList />
+          <ShelterMap />
         </div>
 
       </div>
