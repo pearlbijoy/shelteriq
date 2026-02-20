@@ -1,6 +1,10 @@
 import OccupancyCard from './components/OccupancyCard';
 import ResourcePanel from './components/ResourcePanel';
 import DamageUpload from './components/DamageUpload';
+import ShelterMap from './components/ShelterMap';
+import AlertFeed from './components/AlertFeed';
+import SituationReport from './components/SituationReport';
+import DispatchList from './components/DispatchList';
 function App() {
   return (
     <div className="min-h-screen bg-[#0f172a] text-white flex flex-col">
@@ -19,12 +23,16 @@ function App() {
           <h2 className="text-slate-400 text-xs uppercase tracking-widest">Shelter Monitoring</h2>
           <OccupancyCard name="Shelter Alpha" count={87} capacity={100} risk="HIGH" />
           <ResourcePanel count={87} />
+          <ShelterMap />
+          <AlertFeed />
+          <SituationReport />
         </div>
 
         {/* Right half — Damage Assessment */}
         <div className="flex-1 flex flex-col gap-4">
           <h2 className="text-slate-400 text-xs uppercase tracking-widest">Damage Assessment</h2>
           <DamageUpload />
+          <DispatchList />
         </div>
 
       </div>
