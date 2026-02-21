@@ -1,9 +1,9 @@
 function DispatchList() {
   const items = [
-    { location: "Velachery", severity: "HIGH", confidence: "94%", time: "14:28" },
-    { location: "T Nagar", severity: "HIGH", confidence: "89%", time: "14:10" },
-    { location: "Adyar", severity: "MEDIUM", confidence: "76%", time: "13:45" },
-  ];
+    { location: "Koramangala", severity: "HIGH", confidence: "94%", time: "14:28" },
+    { location: "Whitefield", severity: "HIGH", confidence: "89%", time: "14:10" },
+    { location: "Hebbal", severity: "MEDIUM", confidence: "76%", time: "13:45" },
+];
 
   const badgeColor = {
     LOW: "bg-green-500",

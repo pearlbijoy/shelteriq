@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 const shelters = [
-  { name: "Shelter Alpha", count: 87, capacity: 100, risk: "HIGH", lat: 13.0827, lng: 80.2707 },
-  { name: "Shelter Beta", count: 45, capacity: 120, risk: "LOW", lat: 13.0418, lng: 80.2341 },
-  { name: "Shelter Gamma", count: 110, capacity: 110, risk: "HIGH", lat: 12.9815, lng: 80.2180 },
+  { name: "Shelter Alpha", count: 87, capacity: 100, risk: "HIGH", lat: 12.9763, lng: 77.5929 },
+  { name: "Shelter Beta", count: 45, capacity: 120, risk: "LOW", lat: 12.9507, lng: 77.5848 },
+  { name: "Shelter Gamma", count: 110, capacity: 110, risk: "HIGH", lat: 12.9716, lng: 77.5946 },
 ];
 
 function ShelterMap() {
@@ -13,7 +13,7 @@ function ShelterMap() {
       <h3 className="font-semibold text-white">Shelter Network Map</h3>
       <div style={{ height: "350px", width: "100%" }}>
         <MapContainer
-          center={[13.0827, 80.2707]}
+          center={[12.9716, 77.5946]}
           zoom={11}
           scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
