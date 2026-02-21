@@ -11,8 +11,7 @@ const textColor = {
   MEDIUM: "text-yellow-400",
   HIGH: "text-red-400",
 };
-
-function DispatchList() {
+function DispatchList({ onDelete, deletedIds = [], severityFilter = "ALL" }) {
   const [items, setItems] = useState([]);
 
   const fetchDamage = async () => {
@@ -30,8 +29,13 @@ function DispatchList() {
     const interval = setInterval(fetchDamage, 5000);
     return () => clearInterval(interval);
   }, []);
+   const visibleItems = items.filter(item => 
+   !deletedIds.includes(item.id) && 
+   (severityFilter === "ALL" || item.severity === severityFilter)
+  );
 
-  if (items.length === 0) {
+  if (visibleItems.length === 0) {
+    
     return (
       <div className="bg-[#1e293b] rounded-xl p-5">
         <h3 className="font-semibold text-white mb-3">Priority Dispatch List</h3>
@@ -44,7 +48,7 @@ function DispatchList() {
     <div className="bg-[#1e293b] rounded-xl p-5 flex flex-col gap-3">
       <h3 className="font-semibold text-white">Priority Dispatch List</h3>
       <div className="flex flex-col gap-2">
-        {items.map((item, i) => (
+        {visibleItems.map((item, i) => (
           <div key={item.id} className="flex items-center justify-between bg-slate-800 rounded-lg px-3 py-2">
             <div className="flex items-center gap-3">
               <span className={`text-sm font-bold ${textColor[item.severity]}`}>#{i + 1}</span>
@@ -56,6 +60,12 @@ function DispatchList() {
               <span className={`text-xs font-bold px-2 py-0.5 rounded-full text-white ${badgeColor[item.severity]}`}>
                 {item.severity}
               </span>
+              <button
+                onClick={() => onDelete(item.id)}
+                className="text-slate-500 hover:text-red-400 text-xs"
+              >
+                x
+              </button>
             </div>
           </div>
         ))}

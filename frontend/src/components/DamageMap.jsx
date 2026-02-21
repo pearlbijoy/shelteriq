@@ -12,7 +12,16 @@ const createIcon = (severity) => {
   });
 };
 
-function DamageMap({ markers }) {
+function DamageMap({ markers, severityFilter = "ALL" }) {
+  const filteredMarkers = severityFilter === "ALL" ? markers : markers.filter(m => m.severity === severityFilter);
+  const offsetMarkers = markers.map((m, i) => {
+    const duplicates = markers.slice(0, i).filter(
+      prev => prev.lat === m.lat && prev.lng === m.lng
+    );
+    const offset = duplicates.length * 0.001;
+    return { ...m, lat: m.lat + offset, lng: m.lng + offset };
+  });
+
   return (
     <div className="bg-[#1e293b] rounded-xl p-5 flex flex-col gap-3">
       <h3 className="font-semibold text-white">Damage Location Map</h3>
@@ -24,8 +33,8 @@ function DamageMap({ markers }) {
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {markers.map((m, i) => (
-            <Marker key={i} position={[m.lat, m.lng]} icon={createIcon(m.severity)}>
+          {offsetMarkers.map((m, i) => (
+              <Marker key={i} position={[m.lat, m.lng]} icon={createIcon(m.severity)}>
               <Popup>
                 <strong>{m.location_name}</strong><br />
                 Severity: {m.severity}<br />
