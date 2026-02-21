@@ -14,7 +14,7 @@ function ShelterMap() {
       <div style={{ height: "350px", width: "100%" }}>
         <MapContainer
           center={[12.9716, 77.5946]}
-          zoom={11}
+          zoom={9}
           scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
         >

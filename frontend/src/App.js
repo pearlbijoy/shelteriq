@@ -5,7 +5,14 @@ import ShelterMap from './components/ShelterMap';
 import AlertFeed from './components/AlertFeed';
 import SituationReport from './components/SituationReport';
 import DispatchList from './components/DispatchList';
+import { useState } from "react";
+import DamageMap from './components/DamageMap';
 function App() {
+  const [damageMarkers, setDamageMarkers] = useState([]);
+
+  const handleNewAssessment = (data) => {
+  setDamageMarkers(prev => [...prev, data]);
+};
   return (
     <div className="min-h-screen bg-[#0f172a] text-white flex flex-col">
       
@@ -25,12 +32,13 @@ function App() {
           <ResourcePanel count={87} />
           <AlertFeed />
           <SituationReport />
+          <DamageMap markers={damageMarkers} />
         </div>
 
         {/* Right half — Damage Assessment */}
         <div className="flex-1 flex flex-col gap-4">
           <h2 className="text-slate-400 text-xs uppercase tracking-widest">Damage Assessment</h2>
-          <DamageUpload />
+          <DamageUpload onNewAssessment={handleNewAssessment} />
           <DispatchList />
           <ShelterMap />
         </div>
