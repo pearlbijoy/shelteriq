@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import LandingPage from './components/LandingPage';
 import OccupancyCard from './components/OccupancyCard';
 import ResourcePanel from './components/ResourcePanel';
 import DamageUpload from './components/DamageUpload';
@@ -6,40 +7,15 @@ import UnifiedNetworkMap from './components/UnifiedNetworkMap';
 import AlertFeed from './components/AlertFeed';
 import SituationReport from './components/SituationReport';
 import DispatchList from './components/DispatchList';
+import './App.css';
 
 function App() {
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [viewMode, setViewMode] = useState("SHELTER"); // SHELTER or DISASTER
   const [damageMarkers, setDamageMarkers] = useState([]);
   const [deletedIds, setDeletedIds] = useState([]);
   const [severityFilter, setSeverityFilter] = useState("ALL");
   const [liveData, setLiveData] = useState({ count: 0, risk: "LOW", alerts: [], resources: {}, report: "", ttf: "" });
-
-  // App.js - Inside function App()
-
-const handleBulkUpload = async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await fetch("http://10.7.16.234:8000/process-bulk-damage", {
-      method: "POST",
-      body: formData,
-    });
-    const allResults = await response.json();
-
-    // STEP BY STEP: Add one to the map every 2 seconds
-    allResults.forEach((marker, index) => {
-      setTimeout(() => {
-        // Reuse your existing assessment handler!
-        handleNewAssessment(marker);
-      }, index * 2000); 
-    });
-  } catch (err) {
-    console.error("Bulk upload failed", err);
-  }
-};
 
   useEffect(() => {
     const fetchData = () => {
@@ -48,59 +24,61 @@ const handleBulkUpload = async (event) => {
         .then(data => setLiveData(data))
         .catch(err => console.log("Backend connecting..."));
     };
-    const interval = setInterval(fetchData, 1000);
-    return () => clearInterval(interval);
+    setInterval(fetchData, 1000);
   }, []);
 
   const handleNewAssessment = (data) => setDamageMarkers(prev => [...prev, data]);
-  const handleDelete = (id) => setDeletedIds(prev => [...prev, id]);
+
+  if (!showDashboard) return <LandingPage onEnter={() => setShowDashboard(true)} liveData={liveData} />;
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white flex flex-col max-h-screen overflow-hidden">
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-3 bg-[#1e293b] border-b border-slate-700 shrink-0">
-        <h1 className="text-xl font-bold tracking-wide text-blue-400 uppercase">ShelterIQ Dashboard</h1>
-        <span className="text-green-400 text-xs font-bold uppercase tracking-widest animate-pulse">● System Live</span>
-      </div>
+    <div className="min-h-screen bg-[#020617] text-white flex flex-col max-h-screen overflow-hidden font-sans">
       
-      {/* NEW: Map spans the top of the dashboard content */}
-      <div className="px-4 pt-4 shrink-0">
-         <UnifiedNetworkMap 
-            damageMarkers={damageMarkers.filter(m => !deletedIds.includes(m.id))}
-            severityFilter={severityFilter}
-            liveCount={liveData.count}
-            liveRisk={liveData.risk}
-          />
+      {/* HUD Header */}
+      <div className="flex items-center justify-between px-8 py-4 glass-panel border-b border-white/5 shrink-0">
+        <h1 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">SHELTERIQ // COMMAND</h1>
+        <div className="flex items-center gap-6">
+            <div className="flex bg-slate-900 p-1 rounded-full border border-white/10">
+                <button onClick={() => setViewMode("SHELTER")} className={`px-4 py-1 rounded-full text-[10px] font-bold transition ${viewMode === "SHELTER" ? "bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.5)]" : "text-slate-500"}`}>SHELTER</button>
+                <button onClick={() => setViewMode("DISASTER")} className={`px-4 py-1 rounded-full text-[10px] font-bold transition ${viewMode === "DISASTER" ? "bg-pink-600 shadow-[0_0_15px_rgba(244,114,182,0.5)]" : "text-slate-500"}`}>DISASTER</button>
+            </div>
+            <span className="text-green-400 text-[10px] font-bold tracking-widest animate-pulse tracking-widest">● ENCRYPTED LINK LIVE</span>
+        </div>
       </div>
 
-      <div className="flex flex-1 gap-4 p-4 overflow-hidden">
-        {/* Left Column — Shelter Monitoring */}
-        <div className="flex-1 flex flex-col gap-4 overflow-y-auto pr-2">
-          <h2 className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">Shelter Monitoring</h2>
-          <OccupancyCard name="Shelter Alpha" count={liveData.count} capacity={100} risk={liveData.risk} />
-          <ResourcePanel resources={liveData.resources} /> 
-          <AlertFeed alerts={liveData.alerts} />
-          <SituationReport report={liveData.report} ttf={liveData.ttf} />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Interactive Column */}
+        <div className="w-[450px] flex flex-col gap-4 p-6 overflow-y-auto glass-panel border-r border-white/5">
+          {viewMode === "SHELTER" ? (
+            <>
+              <h2 className="text-yellow-400 text-[10px] font-bold uppercase tracking-[0.3em]">Shelter Analytics</h2>
+              <OccupancyCard name="Alpha Base" count={liveData.count} capacity={100} risk={liveData.risk} />
+              <ResourcePanel resources={liveData.resources} /> 
+              <AlertFeed alerts={liveData.alerts} />
+              <SituationReport report={liveData.report} ttf={liveData.ttf} />
+            </>
+          ) : (
+            <>
+              <h2 className="text-pink-400 text-[10px] font-bold uppercase tracking-[0.3em]">Damage Vector Analysis</h2>
+              <DamageUpload onNewAssessment={handleNewAssessment} />
+              <DispatchList onDelete={(id) => setDeletedIds([...deletedIds, id])} deletedIds={deletedIds} severityFilter={severityFilter} />
+            </>
+          )}
         </div>
 
-        {/* Right Column — Damage Assessment */}
-        <div className="flex-1 flex flex-col gap-4 overflow-y-auto pr-2 border-l border-slate-800 pl-4">
-          <h2 className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">Damage Assessment</h2>
-          <DamageUpload onNewAssessment={handleNewAssessment} />
-          <div className="flex gap-2 shrink-0">
-            {["ALL", "HIGH", "MEDIUM", "LOW"].map(f => (
-              <button
-                key={f}
-                onClick={() => setSeverityFilter(f)}
-                className={`text-[10px] font-extrabold px-3 py-1 rounded-full transition ${
-                  severityFilter === f ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-500"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-          <DispatchList onDelete={handleDelete} deletedIds={deletedIds} severityFilter={severityFilter} />
+        {/* Right Tactical Map Column */}
+        <div className="flex-1 relative p-4 bg-[#020617]">
+            <div className="absolute top-8 right-8 z-[1000] flex flex-col gap-2">
+                {["ALL", "HIGH", "MEDIUM", "LOW"].map(f => (
+                    <button key={f} onClick={() => setSeverityFilter(f)} className={`text-[10px] font-bold w-12 h-12 rounded-full border transition ${severityFilter === f ? "bg-white text-black border-white" : "bg-black/50 text-white border-white/20 backdrop-blur-md"}`}>{f}</button>
+                ))}
+            </div>
+            <UnifiedNetworkMap 
+                damageMarkers={damageMarkers.filter(m => !deletedIds.includes(m.id))}
+                severityFilter={severityFilter}
+                liveCount={liveData.count}
+                liveRisk={liveData.risk}
+            />
         </div>
       </div>
     </div>

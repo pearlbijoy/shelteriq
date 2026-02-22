@@ -1,1 +1,29 @@
+@keyframes float {
+  0%  { transform: translateY(0px);   filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
+  50% { transform: translateY(-20px); filter: drop-shadow(0 25px 15px rgba(0,0,0,0.2)); }
+  100%{ transform: translateY(0px);   filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
+}
 
+.levitate {
+  animation: float 4s ease-in-out infinite;
+  background: linear-gradient(to right, #facc15, #f472b6, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.neon-border-blue { border-left: 4px solid #3b82f6; }
+.neon-border-pink { border-left: 4px solid #f472b6; }
+.neon-border-yellow { border-left: 4px solid #facc15; }
+
+/* Custom Scrollbar for that futuristic look */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }

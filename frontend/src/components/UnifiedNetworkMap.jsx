@@ -39,7 +39,7 @@ function UnifiedNetworkMap({ damageMarkers, severityFilter, liveCount, liveRisk 
       <h3 className="font-semibold text-white text-xs uppercase tracking-widest text-slate-400">
         Unified Crisis Network Map
       </h3>
-      <div style={{ height: "450px", width: "100%" }}>
+      <div style={{ height: "800px", width: "100%" }}>
         <MapContainer
           center={[12.9716, 77.5946]}
           zoom={11}
