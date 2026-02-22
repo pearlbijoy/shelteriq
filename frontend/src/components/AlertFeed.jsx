@@ -20,8 +20,8 @@ const AlertFeed = ({ alerts }) => {
             <div key={i} className="flex items-start gap-3 bg-slate-800 rounded-lg px-3 py-2 border-l-4 border-slate-700">
               <span className="text-slate-500 text-xs mt-0.5 shrink-0">{alert.time}</span>
               <span className="text-slate-300 text-sm flex-1">{alert.message}</span>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full text-white shrink-0 ${badgeColor[alert.status]}`}>
-                {alert.status}
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full text-white shrink-0 ${badgeColor[alert.level]}`}>
+                {alert.level}
               </span>
             </div>
           ))
