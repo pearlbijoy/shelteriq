@@ -201,10 +201,10 @@ def get_locations():
     return damage_locations
 
 
-@app.get("/api/emergency-infrastructure")
-async def get_emergency_infrastructure():
-    try:
-        data = fetch_infrastructure()
-        return data
-    except Exception as e:
-        return {"error": str(e), "hospitals": [], "police": [], "fire_stations": []}
+# @app.get("/api/emergency-infrastructure")
+# async def get_emergency_infrastructure():
+#     try:
+#         data = fetch_infrastructure()
+#         return data
+#     except Exception as e:
+#         return {"error": str(e), "hospitals": [], "police": [], "fire_stations": []}
