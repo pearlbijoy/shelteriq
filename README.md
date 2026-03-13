@@ -2,7 +2,7 @@
 
 A unified AI-powered command dashboard for disaster coordinators to monitor shelter occupancy and assess structural damage in real time — built at a hackathon in 48 hours.
 
-> Built by a team of 3.
+> Built by a team of 3-Navya Dixit, Saisree Vaishnavi, Pearl Bijoy.
 
 ---
 
@@ -16,8 +16,8 @@ During disasters in India, district coordinators manage response over WhatsApp a
 
 ## Two Modules, One Dashboard
 
-### 🏠 Module 1 — Live Shelter Monitoring
-- Real-time people counting from CCTV/drone footage using **YOLOv8**
+###  Module 1 — Live Shelter Monitoring
+- Real-time people counting from CCTV footage using **YOLOv8**
 - Occupancy risk classification (LOW / MEDIUM / HIGH) based on capacity thresholds
 - Auto-calculated resource needs (water, meals, blankets, medical kits, volunteers) with deficit alerts
 - Estimated time-to-full based on current intake rate
@@ -25,8 +25,8 @@ During disasters in India, district coordinators manage response over WhatsApp a
 - Situation report auto-generated every 60 seconds
 - Live authority alerts when thresholds are breached
 
-### 🏚️ Module 2 — Damage Assessment
-- Photo upload interface for field teams and citizens
+###  Module 2 — Damage Assessment
+- Photo upload interface for field teams 
 - **MobileNetV2** classifies structural damage as LOW / MEDIUM / HIGH with confidence score
 - Priority dispatch list ranked by damage severity
 - Damage locations plotted on unified map alongside shelter markers
