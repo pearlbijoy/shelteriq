@@ -1,6 +1,6 @@
 # 🚨 ShelterIQ — Disaster Response Intelligence Dashboard
 
-A unified AI-powered command dashboard for disaster coordinators to monitor shelter occupancy and assess structural damage in real time — built at a hackathon in 48 hours.
+A unified AI-powered command dashboard for disaster coordinators to monitor shelter occupancy and assess structural damage in real time.
 
 > Built by a team of 3-Navya Dixit, Saisree Vaishnavi, Pearl Bijoy.
 
